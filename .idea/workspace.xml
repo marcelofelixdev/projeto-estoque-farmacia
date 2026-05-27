@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ed1517bf-3059-4449-998b-59c3a0a69709" name="Changes" comment="Primeiro commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/controller/MedicamentoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/dto/MedicamentoRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/exception/TratadorDeErros.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/repository/FabricanteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/repository/MedicamentoRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/farma/estoque/service/MedicamentoService.java" afterDir="false" />
+    <list default="true" id="ed1517bf-3059-4449-998b-59c3a0a69709" name="Changes" comment="feat: CRUD inserido para rota de medicamentos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,11 +124,20 @@
       <option name="project" value="LOCAL" />
       <updated>1779771019389</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: CRUD inserido para rota de medicamentos">
+      <option name="closed" value="true" />
+      <created>1779851382471</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1779851382471</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Primeiro commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Primeiro commit" />
+    <MESSAGE value="feat: CRUD inserido para rota de medicamentos" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: CRUD inserido para rota de medicamentos" />
   </component>
 </project>
