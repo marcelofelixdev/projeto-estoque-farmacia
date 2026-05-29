@@ -8,8 +8,8 @@ import com.farma.estoque.repository.MedicamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class MedicamentoService {
@@ -36,8 +36,8 @@ public class MedicamentoService {
         return medicamentoRepo.save(novoMedicamento);
     }
 
-    public List<Medicamento> listarTodos() {
-        return medicamentoRepo.findAll();
+    public Page<Medicamento> listarTodos(Pageable pageable) {
+        return medicamentoRepo.findAll(pageable);
     }
 
     public Medicamento buscarPorId(Long id) {

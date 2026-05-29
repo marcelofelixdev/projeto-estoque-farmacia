@@ -6,7 +6,8 @@ import com.farma.estoque.repository.FabricanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class FabricanteService {
@@ -21,8 +22,8 @@ public class FabricanteService {
         return  fabricanteRepo.save(fabricante);
     }
 
-    public List<Fabricante> listarTodos() {
-        return fabricanteRepo.findAll();
+    public Page<Fabricante> listarTodos(Pageable pageable) {
+        return fabricanteRepo.findAll(pageable);
     }
 
     public Fabricante buscarPorId(Long id) {
