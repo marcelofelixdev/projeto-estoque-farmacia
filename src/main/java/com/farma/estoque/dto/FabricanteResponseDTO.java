@@ -11,10 +11,14 @@ public class FabricanteResponseDTO {
     private Long id;
     private String nome;
     private String cnpj;
+    private String telefone;
+    private String email;
 
     public FabricanteResponseDTO(Fabricante fabricante) {
         this.id = fabricante.getId();
         this.nome = fabricante.getNome();
         this.cnpj = fabricante.getCnpj();
+        this.telefone = fabricante.getTelefone();
+        this.email = fabricante.getEmail();
     }
 }

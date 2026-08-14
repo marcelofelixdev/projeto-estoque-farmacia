@@ -19,6 +19,8 @@ public class FabricanteService {
         Fabricante fabricante = new Fabricante();
         fabricante.setNome(dto.getNome());
         fabricante.setCnpj(dto.getCnpj());
+        fabricante.setTelefone(dto.getTelefone());
+        fabricante.setEmail(dto.getEmail());
         return  fabricanteRepo.save(fabricante);
     }
 
@@ -35,6 +37,8 @@ public class FabricanteService {
         Fabricante fabricanteExistente = buscarPorId(id);
         fabricanteExistente.setNome(dto.getNome());
         fabricanteExistente.setCnpj(dto.getCnpj());
+        fabricanteExistente.setTelefone(dto.getTelefone());
+        fabricanteExistente.setEmail(dto.getEmail());
         return fabricanteRepo.save(fabricanteExistente);
     }
 

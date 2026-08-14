@@ -26,11 +26,15 @@ public class MedicamentoService {
                 .orElseThrow(() -> new RuntimeException("Fabricante não encontrado no banco de dados"));
 
         Medicamento novoMedicamento = new Medicamento();
+        novoMedicamento.setCodigoBarras(dto.getCodigoBarras());
         novoMedicamento.setNome(dto.getNome());
         novoMedicamento.setPrincipioAtivo(dto.getPrincipioAtivo());
+        novoMedicamento.setTarja(dto.getTarja());
         novoMedicamento.setDosagem(dto.getDosagem());
         novoMedicamento.setPreco(dto.getPreco());
-
+        novoMedicamento.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+        novoMedicamento.setLote(dto.getLote());
+        novoMedicamento.setDataValidade(dto.getDataValidade());
         novoMedicamento.setFabricante(fabricanteEncontrado);
 
         return medicamentoRepo.save(novoMedicamento);
@@ -53,9 +57,14 @@ public class MedicamentoService {
                 .orElseThrow(() -> new RuntimeException("Fabricante não encontrado no banco de dados"));
 
         medicamentoExistente.setNome(dto.getNome());
+        medicamentoExistente.setCodigoBarras(dto.getCodigoBarras());
         medicamentoExistente.setPrincipioAtivo(dto.getPrincipioAtivo());
         medicamentoExistente.setDosagem(dto.getDosagem());
+        medicamentoExistente.setTarja(dto.getTarja());
         medicamentoExistente.setPreco(dto.getPreco());
+        medicamentoExistente.setQuantidadeEstoque(dto.getQuantidadeEstoque());
+        medicamentoExistente.setLote(dto.getLote());
+        medicamentoExistente.setDataValidade(dto.getDataValidade());
         medicamentoExistente.setFabricante(fabricanteEncontrado);
 
         return medicamentoRepo.save(medicamentoExistente);
