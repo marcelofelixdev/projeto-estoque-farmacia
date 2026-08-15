@@ -28,13 +28,13 @@ public class FabricanteController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Fabricante>> listarTodos(
+    public ResponseEntity<Page<FabricanteResponseDTO>> listarTodos(
             @PageableDefault(size = 10, sort = "nome") Pageable pageable) {
 
         Page<FabricanteResponseDTO> paginaDto = fabricanteService.listarTodos(pageable)
                 .map(FabricanteResponseDTO::new);
 
-        return ResponseEntity.ok(fabricanteService.listarTodos(pageable));
+        return ResponseEntity.ok(paginaDto);
     }
 
     @GetMapping("/{id}")
