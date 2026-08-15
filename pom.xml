@@ -58,6 +58,7 @@
 			<scope>test</scope>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -79,6 +80,9 @@
 			<artifactId>bucket4j-core</artifactId>
 			<version>8.10.1</version>
 		</dependency>
+=======
+
+>>>>>>> b273284ef5b46a93ad22dd0efc1cba65a868ebb6
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
