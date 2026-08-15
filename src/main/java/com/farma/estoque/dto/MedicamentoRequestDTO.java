@@ -16,27 +16,18 @@ public class MedicamentoRequestDTO {
     private String codigoBarras;
 
     @NotBlank(message = "O nome do medicamento é obrigatório")
-<<<<<<< HEAD
     @Size(max = 255, message = "O nome deve ter no máximo 255 caracteres")
     private String nome;
 
     @NotBlank(message = "O princípio ativo é obrigatório")
     @Size(max = 255, message = "O princípio ativo deve ter no máximo 255 caracteres")
-=======
-    private String nome;
-
-    @NotBlank(message = "O princípio ativo é obrigatório")
->>>>>>> b273284ef5b46a93ad22dd0efc1cba65a868ebb6
     private String principioAtivo;
 
     @NotNull(message = "A tarja é obrigatória")
     private Tarja tarja;
 
     @NotBlank(message = "A dosagem é obrigatória")
-<<<<<<< HEAD
     @Size(max = 100, message = "A dosagem deve ter no máximo 100 caracteres")
-=======
->>>>>>> b273284ef5b46a93ad22dd0efc1cba65a868ebb6
     private String dosagem;
 
     @NotNull(message = "O preço é obrigatório")
@@ -48,10 +39,7 @@ public class MedicamentoRequestDTO {
     private Integer quantidadeEstoque;
 
     @NotBlank(message = "O lote é obrigatório")
-<<<<<<< HEAD
     @Size(max = 50, message = "O lote deve ter no máximo 50 caracteres")
-=======
->>>>>>> b273284ef5b46a93ad22dd0efc1cba65a868ebb6
     private String lote;
 
     @NotNull(message = "A data de validade é obrigatória")
@@ -60,9 +48,4 @@ public class MedicamentoRequestDTO {
 
     @NotNull(message = "O ID do fabricante é obrigatório")
     private Long fabricanteId;
-<<<<<<< HEAD
 }
-=======
-
-}
->>>>>>> b273284ef5b46a93ad22dd0efc1cba65a868ebb6
