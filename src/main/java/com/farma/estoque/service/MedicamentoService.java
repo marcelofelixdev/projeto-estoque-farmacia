@@ -1,6 +1,7 @@
 package com.farma.estoque.service;
 
 import com.farma.estoque.dto.MedicamentoRequestDTO;
+import com.farma.estoque.exception.ResourceNotFoundException;
 import com.farma.estoque.model.Fabricante;
 import com.farma.estoque.model.Medicamento;
 import com.farma.estoque.repository.FabricanteRepository;
@@ -46,7 +47,7 @@ public class MedicamentoService {
 
     public Medicamento buscarPorId(Long id) {
         return medicamentoRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Medicamento não encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Medicamento", id));
     }
 
     public Medicamento atualizar(Long id, MedicamentoRequestDTO dto) {
@@ -54,7 +55,7 @@ public class MedicamentoService {
         Medicamento medicamentoExistente = buscarPorId(id);
 
         Fabricante fabricanteEncontrado = fabricanteRepo.findById(dto.getFabricanteId())
-                .orElseThrow(() -> new RuntimeException("Fabricante não encontrado no banco de dados"));
+                .orElseThrow(() -> new ResourceNotFoundException("Fabricante", dto.getFabricanteId()));
 
         medicamentoExistente.setNome(dto.getNome());
         medicamentoExistente.setCodigoBarras(dto.getCodigoBarras());

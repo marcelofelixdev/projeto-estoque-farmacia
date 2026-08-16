@@ -1,6 +1,7 @@
 package com.farma.estoque.service;
 
 import com.farma.estoque.dto.CadastroUsuarioRequestDTO;
+import com.farma.estoque.exception.ConflictException;
 import com.farma.estoque.model.Usuario;
 import com.farma.estoque.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,7 @@ public class AutenticacaoService implements UserDetailsService {
     public Usuario cadastrar(CadastroUsuarioRequestDTO dto) {
         // Verifica se o login já está em uso
         if (repository.findByLogin(dto.login()) != null) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Já existe um usuário com o login: " + dto.login()
-            );
+            throw new ConflictException("Já existe um usuário com o login: " + dto.login());
         }
 
         // Aplica o BCrypt na senha antes de salvar

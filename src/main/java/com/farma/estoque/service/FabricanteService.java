@@ -1,6 +1,7 @@
 package com.farma.estoque.service;
 
 import com.farma.estoque.dto.FabricanteRequestDTO;
+import com.farma.estoque.exception.ResourceNotFoundException;
 import com.farma.estoque.model.Fabricante;
 import com.farma.estoque.repository.FabricanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,6 @@ public class FabricanteService {
         return fabricanteRepo.findAll(pageable);
     }
 
-    public Fabricante buscarPorId(Long id) {
-        return fabricanteRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fabricante não encontrado"));
-    }
-
     public Fabricante atualizar(Long id, FabricanteRequestDTO dto) {
         Fabricante fabricanteExistente = buscarPorId(id);
         fabricanteExistente.setNome(dto.getNome());
@@ -42,9 +38,13 @@ public class FabricanteService {
         return fabricanteRepo.save(fabricanteExistente);
     }
 
+    public Fabricante buscarPorId(Long id) {
+        return fabricanteRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Fabricante", id));
+    }
+
     public void excluir(Long id) {
         Fabricante fabricante = buscarPorId(id);
-
         fabricanteRepo.delete(fabricante);
     }
 }

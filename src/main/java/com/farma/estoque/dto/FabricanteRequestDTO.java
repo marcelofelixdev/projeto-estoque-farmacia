@@ -24,7 +24,10 @@ public class FabricanteRequestDTO {
     private String telefone;
 
     @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Formato de e-mail inválido")
+    @Email(
+            regexp = "^[\\w._%+\\-]+@[\\w.\\-]+\\.[a-zA-Z]{2,}$",
+            message = "O e-mail deve ser em um formato válido (ex: usuario@dominio.com)"
+    )
     @Size(max = 255, message = "O e-mail deve ter no máximo 255 caracteres")
     private String email;
 }

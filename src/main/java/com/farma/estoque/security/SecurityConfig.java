@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/cadastrar").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/medicamentos/**").hasAnyRole("OPERADOR", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/fabricantes/**").hasAnyRole("OPERADOR", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
@@ -59,18 +60,13 @@ public class SecurityConfig {
     }
 
 
-    /**
-     * Ensina o Spring Security a usar o BCrypt para encriptar e verificar senhas.
-     */
+    // Ensina o Spring Security a usar o BCrypt para encriptar e verificar senhas.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * Expõe o AuthenticationManager.
-     * Dispara o processo de validação de login e senha.
-     */
+    // Expõe o AuthenticationManager. Dispara o processo de validação de login e senha.
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
