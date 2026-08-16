@@ -1,6 +1,6 @@
 # 💊 Estoque Farmácia — API REST
 
-API REST para controle de estoque de medicamentos em farmácias. Desenvolvida com Spring Boot, oferece gerenciamento de medicamentos e fabricantes com autenticação JWT, controle de acesso por perfil e proteção contra brute force.
+API REST para controle de estoque de medicamentos em farmácias. Desenvolvida com Spring Boot, oferece gerenciamento completo de medicamentos e fabricantes com autenticação JWT, controle de acesso por perfil, proteção contra brute force e tratamento detalhado de erros.
 
 ---
 
@@ -41,11 +41,11 @@ API REST para controle de estoque de medicamentos em farmácias. Desenvolvida co
 
 - **JWT (Bearer Token):** todas as rotas, exceto `/api/auth/login`, exigem autenticação
 - **Perfis de acesso:**
-  - `ADMIN` — acesso total (leitura, escrita e cadastro de usuários)
+  - `ADMIN` — acesso total: leitura, escrita e cadastro de usuários
   - `OPERADOR` — somente leitura de medicamentos e fabricantes
 - **Rate Limiting:** proteção contra brute force no login por IP via Bucket4j — retorna `429 Too Many Requests` ao exceder o limite
 - **Senhas:** armazenadas com hash BCrypt, nunca em texto puro
-- **Validação de e-mail:** regex estrito exige domínio com TLD (`usuario@dominio.com`)
+- **Validação de e-mail:** regex estrito exige domínio com TLD válido (`usuario@dominio.com`)
 
 ---
 
@@ -63,7 +63,7 @@ API REST para controle de estoque de medicamentos em farmácias. Desenvolvida co
 | Método | Rota | Descrição | Auth |
 |---|---|---|---|
 | `POST` | `/api/auth/login` | Realiza login e retorna o token JWT | ❌ Pública |
-| `POST` | `/api/auth/cadastrar` | Cadastra um novo usuário | ✅ Apenas ADMIN |
+| `POST` | `/api/auth/cadastrar` | Cadastra um novo usuário no sistema | ✅ Apenas ADMIN |
 
 #### `POST /api/auth/login`
 ```json
@@ -98,19 +98,11 @@ API REST para controle de estoque de medicamentos em farmácias. Desenvolvida co
 
 **Roles disponíveis:** `ADMIN` · `OPERADOR`
 
-**Erros possíveis:**
-| Status | Situação |
-|---|---|
-| `400 Bad Request` | Campos inválidos (e-mail sem TLD, senha curta, etc.) |
-| `401 Unauthorized` | Token ausente ou inválido |
-| `403 Forbidden` | Usuário autenticado não é ADMIN |
-| `409 Conflict` | Login já cadastrado no sistema |
-
 ---
 
 ### 🏭 Fabricantes — `/api/fabricantes`
 
-> Todas as rotas exigem autenticação. `POST`, `PUT` e `DELETE` exigem perfil `ADMIN`.
+> `POST`, `PUT` e `DELETE` exigem perfil `ADMIN`. `GET` aceita `ADMIN` e `OPERADOR`.
 
 | Método | Rota | Descrição |
 |---|---|---|
@@ -124,7 +116,7 @@ API REST para controle de estoque de medicamentos em farmácias. Desenvolvida co
 
 ### 💊 Medicamentos — `/api/medicamentos`
 
-> Todas as rotas exigem autenticação. `POST`, `PUT` e `DELETE` exigem perfil `ADMIN`.
+> `POST`, `PUT` e `DELETE` exigem perfil `ADMIN`. `GET` aceita `ADMIN` e `OPERADOR`.
 
 | Método | Rota | Descrição |
 |---|---|---|
@@ -135,6 +127,50 @@ API REST para controle de estoque de medicamentos em farmácias. Desenvolvida co
 | `DELETE` | `/api/medicamentos/{id}` | Remove um medicamento |
 
 **Tarjas disponíveis:** `LIVRE` · `AMARELA` · `VERMELHA` · `PRETA`
+
+---
+
+## 🚨 Tratamento de Erros
+
+Todos os erros seguem o mesmo formato de resposta:
+
+```json
+{
+  "caminho": "/api/fabricantes/999",
+  "status": 404,
+  "timestamp": "2026-08-15T21:00:00Z",
+  "titulo": "Fabricante não encontrado(a) com ID: 999",
+  "detalhes": null
+}
+```
+
+Para erros de validação de campos, o array `detalhes` é preenchido:
+
+```json
+{
+  "caminho": "/api/auth/cadastrar",
+  "status": 400,
+  "timestamp": "2026-08-15T21:00:00Z",
+  "titulo": "Dados inválidos. Verifique os campos abaixo e tente novamente.",
+  "detalhes": [
+    { "campo": "login", "mensagem": "O login deve ser um e-mail válido (ex: usuario@dominio.com)" },
+    { "campo": "senha", "mensagem": "A senha deve ter no mínimo 6 caracteres" }
+  ]
+}
+```
+
+### Mapa de status HTTP
+
+| Status | Situação |
+|---|---|
+| `400 Bad Request` | Campos inválidos ou ausentes no body |
+| `401 Unauthorized` | Login ou senha incorretos |
+| `403 Forbidden` | Autenticado, mas sem permissão para a operação |
+| `404 Not Found` | Recurso não encontrado (ID inexistente) |
+| `409 Conflict` | Duplicata (login, CNPJ ou código de barras já cadastrado) |
+| `422 Unprocessable Entity` | Violação de regra de negócio |
+| `429 Too Many Requests` | Limite de tentativas de login excedido |
+| `500 Internal Server Error` | Erro inesperado — detalhes internos nunca são expostos |
 
 ---
 
@@ -239,7 +275,7 @@ CREATE DATABASE estoque_farma;
 ### Usuário
 | Campo | Tipo | Valores |
 |---|---|---|
-| `login` | String (e-mail válido) | — |
+| `login` | String (e-mail válido com TLD) | — |
 | `senha` | String (BCrypt) | — |
 | `role` | Enum | `ADMIN`, `OPERADOR` |
 
@@ -287,7 +323,7 @@ src/
     │   ├── model/          # Entidades JPA
     │   ├── dto/            # Objetos de transferência de dados
     │   ├── security/       # JWT, filtros, rate limiting
-    │   └── exception/      # Tratamento global de erros
+    │   └── exception/      # Exceções customizadas e tratador global de erros
     └── resources/
         ├── application.properties
         ├── application-dev.properties
