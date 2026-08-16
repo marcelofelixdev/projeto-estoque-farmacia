@@ -1,10 +1,13 @@
 package com.farma.estoque.controller;
 
 import com.farma.estoque.dto.AutenticacaoDTO;
+import com.farma.estoque.dto.CadastroUsuarioRequestDTO;
 import com.farma.estoque.dto.TokenJwtDTO;
+import com.farma.estoque.dto.UsuarioResponseDTO;
 import com.farma.estoque.model.Usuario;
 import com.farma.estoque.security.RateLimitService;
 import com.farma.estoque.security.TokenService;
+import com.farma.estoque.service.AutenticacaoService;
 import io.github.bucket4j.Bucket;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -31,6 +34,9 @@ public class AutenticacaoController {
     @Autowired
     private RateLimitService rateLimitService;
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
+
     @PostMapping("/login")
     public ResponseEntity<?> efetuarLogin(
             HttpServletRequest request,
@@ -49,6 +55,17 @@ public class AutenticacaoController {
         var authentication = manager.authenticate(authenticationToken);
         var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 
-        return  ResponseEntity.ok(new TokenJwtDTO(tokenJWT));
+        return ResponseEntity.ok(new TokenJwtDTO(tokenJWT));
+    }
+
+    @PostMapping("/cadastrar")
+    public ResponseEntity<UsuarioResponseDTO> cadastrarUsuario(
+            @RequestBody @Valid CadastroUsuarioRequestDTO dto) {
+
+        Usuario usuarioCriado = autenticacaoService.cadastrar(dto);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new UsuarioResponseDTO(usuarioCriado));
     }
 }
